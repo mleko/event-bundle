@@ -1,0 +1,49 @@
+<?php
+/**
+ * @package event-bundle
+ */
+
+
+namespace Mleko\Event\Bundle\Listener;
+
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class ListenerService implements \Mleko\Event\Listener
+{
+
+    /** @var ContainerInterface */
+    private $container;
+
+    /** @var string */
+    private $serviceId;
+
+    /** @var string */
+    private $methodName;
+
+    /**
+     * ListenerService constructor.
+     * @param string $serviceId
+     * @param ContainerInterface $container
+     * @param string $methodName
+     */
+    public function __construct($serviceId, ContainerInterface $container, $methodName = 'handle')
+    {
+        $this->serviceId = $serviceId;
+        $this->container = $container;
+        $this->methodName = $methodName ?: 'handle';
+    }
+
+
+    /**
+     * Handle an event
+     *
+     * @param object $event
+     * @param \Mleko\Event\Meta $meta
+     */
+    public function handle($event, \Mleko\Event\Meta $meta)
+    {
+        $listener = $this->container->get($this->serviceId);
+        call_user_func_array([$listener, $this->methodName], [$event, $meta]);
+    }
+}

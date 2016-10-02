@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="mleko.event.emitter" alias="mleko.event.emitter.default"/>
+        <service id="mleko.event.emitter.default" class="Mleko\Event\SimpleEmitter">
+            <factory service="mleko.event.emitter_factory" method="createEmitter"/>
+            <argument type="service" id="mleko.event.name_extractor.class_name"/>
+            <argument type="collection"/>
+        </service>
+
+        <service id="mleko.event.name_extractor.class_name" class="Mleko\Event\EventNameExtractor\ClassNameExtractor"/>
+
+        <service id="mleko.event.emitter_factory" class="Mleko\Event\Bundle\EmitterFactory">
+            <argument type="service" id="service_container"/>
+        </service>
+    </services>
+</container>

@@ -1,0 +1,29 @@
+{
+  "name": "mleko/event-bundle",
+  "description": "Event library bundle",
+  "tags": [
+    "mleko",
+    "event",
+    "bundle",
+    "symfony"
+  ],
+  "type": "library",
+  "require": {
+    "mleko/event": "^0.1.0",
+    "symfony/http-kernel": "^2.3|^3.0",
+    "symfony/config": "^2.3|^3.0",
+    "symfony/dependency-injection": "^2.3|^3.0"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Król",
+      "email": "daniel@krol.me"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Mleko\\Event\\Bundle\\": "src/"
+    }
+  }
+}

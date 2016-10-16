@@ -1,15 +1,16 @@
 {
-  "name": "mleko/event-bundle",
+  "name": "narrator/narrator-bundle",
   "description": "Event library bundle",
   "tags": [
     "mleko",
+    "narrator",
     "event",
     "bundle",
     "symfony"
   ],
   "type": "library",
   "require": {
-    "mleko/event": "~0.1.1",
+    "narrator/narrator": "^0.2",
     "symfony/http-kernel": "^2.3|^3.0",
     "symfony/config": "^2.3|^3.0",
     "symfony/dependency-injection": "^2.3|^3.0"
@@ -23,7 +24,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Mleko\\Event\\Bundle\\": "src/"
+      "Mleko\\Narrator\\Bundle\\": "src/"
     }
   }
 }

@@ -1,15 +1,15 @@
 <?php
 /**
- * @package event-bundle
+ * @package narrator-bundle
  */
 
 
-namespace Mleko\Event\Bundle\Listener;
+namespace Mleko\Narrator\Bundle\Listener;
 
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ListenerService implements \Mleko\Event\Listener
+class ListenerService implements \Mleko\Narrator\Listener
 {
 
     /** @var ContainerInterface */
@@ -39,9 +39,9 @@ class ListenerService implements \Mleko\Event\Listener
      * Handle an event
      *
      * @param object $event
-     * @param \Mleko\Event\Meta $meta
+     * @param \Mleko\Narrator\Meta $meta
      */
-    public function handle($event, \Mleko\Event\Meta $meta)
+    public function handle($event, \Mleko\Narrator\Meta $meta)
     {
         $listener = $this->container->get($this->serviceId);
         call_user_func_array([$listener, $this->methodName], [$event, $meta]);

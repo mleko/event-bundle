@@ -1,10 +1,10 @@
 <?php
 /**
- * @package event-bundle
+ * @package narrator-bundle
  */
 
 
-namespace Mleko\Event\Bundle;
+namespace Mleko\Narrator\Bundle;
 
 
 class EmitterFactory
@@ -24,19 +24,19 @@ class EmitterFactory
     }
 
     /**
-     * @param \Mleko\Event\EventNameExtractor $nameExtractor
+     * @param \Mleko\Narrator\EventNameExtractor $nameExtractor
      * @param $listenerDefinitions
-     * @return \Mleko\Event\SimpleEmitter
+     * @return \Mleko\Narrator\SimpleEmitter
      */
-    public function createEmitter(\Mleko\Event\EventNameExtractor $nameExtractor, $listenerDefinitions)
+    public function createEmitter(\Mleko\Narrator\EventNameExtractor $nameExtractor, $listenerDefinitions)
     {
         $listeners = [];
         foreach ($listenerDefinitions as $eventName => $listenerDefinition) {
             foreach ($listenerDefinition as $listenerData) {
-                $listeners[$eventName][] = new \Mleko\Event\Bundle\Listener\ListenerService($listenerData['serviceId'], $this->container, $listenerData['methodName']);
+                $listeners[$eventName][] = new Listener\ListenerService($listenerData['serviceId'], $this->container, $listenerData['methodName']);
             }
         }
-        return new \Mleko\Event\SimpleEmitter($nameExtractor, $listeners);
+        return new \Mleko\Narrator\SimpleEmitter($nameExtractor, $listeners);
     }
 
 }

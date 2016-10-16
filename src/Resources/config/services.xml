@@ -5,16 +5,16 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="mleko.event.emitter" alias="mleko.event.emitter.default"/>
-        <service id="mleko.event.emitter.default" class="Mleko\Event\SimpleEmitter">
-            <factory service="mleko.event.emitter_factory" method="createEmitter"/>
-            <argument type="service" id="mleko.event.name_extractor.class_name"/>
+        <service id="narrator.emitter" alias="narrator.emitter.default"/>
+        <service id="narrator.emitter.default" class="Mleko\Narrator\SimpleEmitter">
+            <factory service="narrator.emitter_factory" method="createEmitter"/>
+            <argument type="service" id="narrator.name_extractor.class_name"/>
             <argument type="collection"/>
         </service>
 
-        <service id="mleko.event.name_extractor.class_name" class="Mleko\Event\EventNameExtractor\ClassNameExtractor"/>
+        <service id="narrator.name_extractor.class_name" class="Mleko\Narrator\EventNameExtractor\ClassNameExtractor"/>
 
-        <service id="mleko.event.emitter_factory" class="Mleko\Event\Bundle\EmitterFactory">
+        <service id="narrator.emitter_factory" class="Mleko\Narrator\Bundle\EmitterFactory">
             <argument type="service" id="service_container"/>
         </service>
     </services>

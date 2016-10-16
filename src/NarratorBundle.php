@@ -1,16 +1,19 @@
 <?php
+/**
+ * @package narrator-bundle
+ */
 
-namespace Mleko\Event\Bundle;
+namespace Mleko\Narrator\Bundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class MlekoEventBundle extends Bundle
+class NarratorBundle extends Bundle
 {
     public function build(\Symfony\Component\DependencyInjection\ContainerBuilder $container)
     {
         parent::build($container);
         
-        $container->addCompilerPass(new \Mleko\Event\Bundle\DependencyInjection\Compiler\ListenerPass());
+        $container->addCompilerPass(new DependencyInjection\Compiler\ListenerPass());
     }
 
 }

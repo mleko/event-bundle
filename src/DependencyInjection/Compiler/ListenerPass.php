@@ -1,10 +1,10 @@
 <?php
 /**
- * @package event-bundle
+ * @package narrator-bundle
  */
 
 
-namespace Mleko\Event\Bundle\DependencyInjection\Compiler;
+namespace Mleko\Narrator\Bundle\DependencyInjection\Compiler;
 
 
 class ListenerPass implements \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface
@@ -17,11 +17,11 @@ class ListenerPass implements \Symfony\Component\DependencyInjection\Compiler\Co
      */
     public function process(\Symfony\Component\DependencyInjection\ContainerBuilder $container)
     {
-        $services = $container->findTaggedServiceIds('mleko.event.listener');
+        $services = $container->findTaggedServiceIds('narrator.listener');
         foreach ($services as $serviceId => $tags) {
             foreach ($tags as $tag) {
                 if (!isset($tag['event'])) {
-                    throw new \RuntimeException('The mleko.event.listener must have event attribute');
+                    throw new \RuntimeException('The narrator.listener must have event attribute');
                 }
                 $eventName = $tag['event'];
                 $emitterName = isset($tag['emitter']) ? $tag['emitter'] : 'default';
@@ -33,7 +33,7 @@ class ListenerPass implements \Symfony\Component\DependencyInjection\Compiler\Co
 
     private function registerListener(\Symfony\Component\DependencyInjection\ContainerBuilder $container, $eventName, $emitterName, $listenerServiceId, $methodName)
     {
-        $emitterDefinition = $container->getDefinition('mleko.event.emitter.' . $emitterName);
+        $emitterDefinition = $container->getDefinition('narrator.emitter.' . $emitterName);
         $listeners = $emitterDefinition->getArgument(1);
         $eventListeners = isset($listeners[$eventName]) ? $listeners[$eventName] : [];
         $eventListeners[] = ['serviceId' => $listenerServiceId, 'methodName' => $methodName];

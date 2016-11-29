@@ -22,7 +22,7 @@ class ListenerPassTest extends \PHPUnit_Framework_TestCase
         $this->container = $this->getMockBuilder(\Symfony\Component\DependencyInjection\ContainerBuilder::class)->getMock();
 
         $this->defaultEmitterDefinition = new \Symfony\Component\DependencyInjection\Definition(null, [null, []]);
-        $this->container->method('getDefinition')->with('narrator.emitter.default')->willReturn($this->defaultEmitterDefinition);
+        $this->container->method('getDefinition')->with('narrator.event_bus.default')->willReturn($this->defaultEmitterDefinition);
 
         $this->compilerPass = new \Mleko\Narrator\Bundle\DependencyInjection\Compiler\ListenerPass();
     }

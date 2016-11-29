@@ -36,16 +36,16 @@ class ListenerPass implements \Symfony\Component\DependencyInjection\Compiler\Co
             throw new \RuntimeException('The narrator.listener must have event attribute');
         }
         $eventName = $tag['event'];
-        $emitterName = isset($tag['emitter']) ? $tag['emitter'] : 'default';
+        $busName = isset($tag['bus']) ? $tag['bus'] : 'default';
         $methodName = isset($tag['method']) ? $tag['method'] : null;
-        $this->registerListener($container, $eventName, $emitterName, $serviceId, $methodName);
+        $this->registerListener($container, $eventName, $busName, $serviceId, $methodName);
     }
 
-    private function registerListener(\Symfony\Component\DependencyInjection\ContainerBuilder $container, $eventName, $emitterName, $listenerServiceId, $methodName)
+    private function registerListener(\Symfony\Component\DependencyInjection\ContainerBuilder $container, $busName, $emitterName, $listenerServiceId, $methodName)
     {
-        $emitterDefinition = $container->getDefinition('narrator.emitter.' . $emitterName);
+        $emitterDefinition = $container->getDefinition('narrator.event_bus.' . $emitterName);
         $listeners = $emitterDefinition->getArgument(1);
-        $listeners[$eventName][] = ['serviceId' => $listenerServiceId, 'methodName' => $methodName];
+        $listeners[$busName][] = ['serviceId' => $listenerServiceId, 'methodName' => $methodName];
         $emitterDefinition->replaceArgument(1, $listeners);
     }
 }

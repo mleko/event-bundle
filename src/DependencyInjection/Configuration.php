@@ -23,9 +23,28 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('narrator');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->arrayNode('event_bus')
+                ->defaultValue(['default' => ['resolver' => ['type' => 'name', "name_extractor" => "narrator.name_extractor.class_name"]]])
+                ->requiresAtLeastOneElement()
+                ->useAttributeAsKey('name')
+                ->prototype("array")
+                    ->children()
+                    ->arrayNode('resolver')
+                        ->children()
+                            ->enumNode('type')
+                            ->values(['name', 'instanceof', 'service'])
+                            ->isRequired()
+                        ->end()
+                            ->scalarNode('name_extractor')
+                            ->defaultValue("narrator.name_extractor.class_name")
+                        ->end()
+                            ->scalarNode('service_id')
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }

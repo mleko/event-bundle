@@ -5,6 +5,7 @@
 
 namespace Mleko\Narrator\Bundle\DependencyInjection;
 
+use Mleko\Narrator\Bundle\DependencyInjection\Configuration\EventBusConfiguration;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -24,6 +25,8 @@ class NarratorExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+
+        (new EventBusConfiguration())->configureEventBus($config['event_bus'], $container);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');

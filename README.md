@@ -1,10 +1,10 @@
-#narrator\narrator-bundle
+# narrator\narrator-bundle
 
 [![Travis CI](https://travis-ci.org/mleko/narrator-bundle.svg?branch=master)](https://travis-ci.org/mleko/narrator-bundle)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mleko/narrator-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mleko/narrator-bundle/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/mleko/narrator-bundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mleko/narrator-bundle/?branch=master)
 
-##Installation
+## Installation
 
 Add project depdendency using [Composer](http://getcomposer.org/):
 
@@ -35,7 +35,7 @@ class AppKernel extends Kernel
 }
 ```
 
-##Configure listeners
+## Configure listeners
 
 NarratorBundle loads listeners from dependency container.
 To use service as a listener you only need to add tag marking service as listener.

@@ -6,16 +6,7 @@
 
     <services>
         <service id="narrator.event_bus" alias="narrator.event_bus.default"/>
-        <service id="narrator.event_bus.default" class="Mleko\Narrator\BasicEventBus">
-            <factory service="narrator.event_bus_factory" method="createEventBus"/>
-            <argument type="service" id="narrator.name_extractor.class_name"/>
-            <argument type="collection"/>
-        </service>
 
         <service id="narrator.name_extractor.class_name" class="Mleko\Narrator\EventNameExtractor\ClassNameExtractor"/>
-
-        <service id="narrator.event_bus_factory" class="Mleko\Narrator\Bundle\EventBusFactory">
-            <argument type="service" id="service_container"/>
-        </service>
     </services>
 </container>

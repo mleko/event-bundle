@@ -7,6 +7,10 @@
 namespace Mleko\Narrator\Bundle\DependencyInjection\Compiler;
 
 
+use Mleko\Narrator\Bundle\Listener\ListenerService;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
+
 class ListenerPass implements \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface
 {
 
@@ -41,11 +45,18 @@ class ListenerPass implements \Symfony\Component\DependencyInjection\Compiler\Co
         $this->registerListener($container, $eventName, $busName, $serviceId, $methodName);
     }
 
-    private function registerListener(\Symfony\Component\DependencyInjection\ContainerBuilder $container, $busName, $emitterName, $listenerServiceId, $methodName)
+    private function registerListener(\Symfony\Component\DependencyInjection\ContainerBuilder $container, $eventName, $emitterName, $listenerServiceId, $methodName)
     {
         $emitterDefinition = $container->getDefinition('narrator.event_bus.' . $emitterName);
         $listeners = $emitterDefinition->getArgument(1);
-        $listeners[$busName][] = ['serviceId' => $listenerServiceId, 'methodName' => $methodName];
+        $listeners[$eventName][] = new Definition(
+            ListenerService::class,
+            [
+                $listenerServiceId,
+                new Reference("service_container"),
+                $methodName
+            ]
+        );
         $emitterDefinition->replaceArgument(1, $listeners);
     }
 }

@@ -6,7 +6,7 @@
 
 ## Installation
 
-Add project depdendency using [Composer](http://getcomposer.org/):
+Add project dependency using [Composer](http://getcomposer.org/):
 
 ```sh
 $ composer require narrator/narrator-bundle
@@ -55,3 +55,19 @@ To use it as a listener add tag. Listener tag always have to define parameter ev
     <tag name="narrator.listener" event="Foo\BarBundle\UserRegistered"/>
 </service>
 ```
+
+## Configure event buses
+
+This bundle comes pre-configured with event bus called "default" aliased to `narrator.event_bus`.
+You might want to use more buses or reconfigure "default" bus. You can do this via configuration
+```
+narrator:
+  event_bus:
+    default:
+      resolver:
+        type: instanceof
+    named: ~
+```
+This configuration defines two buses: "default" and "named". These buses will be registered as `narrator.event_bus.default` and `narrator.event_bus.named`.
+`narrator.event_bus.default` will use `InstanceOf` resolver, therefore it will support event inheritance;
+`narrator.event_bus.named` will use default configuration based on strict event name comparison.

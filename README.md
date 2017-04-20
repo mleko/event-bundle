@@ -47,12 +47,40 @@ If you had service
 </service>
 ```
 
-To use it as a listener add tag. Listener tag always have to define parameter event which should be FQCN of event it will listen to.
+```
+class UserInvitationSender {
+    ...
+    public function handle($event){
+        ...
+    }
+}
+```
+
+To use it as a listener add tag `narrator.listener`. Listener tag always have to define parameter `event` which should be FQCN of event listener will listen to.
 
 ```
 <service class="Foo\BarBundle\UserInvitationSender">
     // .. arguments, configuration
     <tag name="narrator.listener" event="Foo\BarBundle\UserRegistered"/>
+</service>
+```
+
+By default event is passed to method `handle` of registered listener. Method name can be changed using `method` parameter.
+
+```
+<service class="Foo\BarBundle\UserInvitationSender">
+    // .. arguments, configuration
+    <tag name="narrator.listener" event="Foo\BarBundle\UserRegistered" method="handleRegistration"/>
+</service>
+```
+
+Using `method` parameter it is possible to use single service to handle different events.
+
+```
+<service class="Foo\BarBundle\NotificationSender">
+    // .. arguments, configuration
+    <tag name="narrator.listener" event="Foo\BarBundle\UserRegistered" method="handleRegistration"/>
+    <tag name="narrator.listener" event="Foo\BarBundle\UserLoggedIn" method="handleLogin"/>
 </service>
 ```
 

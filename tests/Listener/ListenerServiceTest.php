@@ -26,7 +26,7 @@ class ListenerServiceTest extends \PHPUnit_Framework_TestCase
         $listener = new \Mleko\Narrator\Bundle\Listener\ListenerService('mock.listener', $this->container);
 
         $event = new \stdClass();
-        $meta = new \Mleko\Narrator\Meta($event, 'strClass', 'stdClass', $this->getMockBuilder(\Mleko\Narrator\EventSource::class)->getMockForAbstractClass());
+        $meta = new \Mleko\Narrator\Meta($event, \stdClass::class, \stdClass::class, $this->getMockBuilder(\Mleko\Narrator\EventSource::class)->getMockForAbstractClass());
         $listener->handle($event, $meta);
     }
 }

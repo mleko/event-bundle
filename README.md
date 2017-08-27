@@ -50,14 +50,32 @@ If you had service
 ```
 class UserInvitationSender {
     ...
+    public function handle(\Foo\BarBundle\UserRegistered $event){
+        ...
+    }
+}
+```
+
+To use it as a listener add tag `narrator.listener`.
+
+```
+<service class="Foo\BarBundle\UserInvitationSender">
+    // .. arguments, configuration
+    <tag name="narrator.listener"/>
+</service>
+```
+
+Listener don't have to define parameter type in handle method.
+```
+class UserInvitationSender {
+    ...
     public function handle($event){
         ...
     }
 }
 ```
 
-To use it as a listener add tag `narrator.listener`. Listener tag always have to define parameter `event` which should be FQCN of event listener will listen to.
-
+Event type can be passed as tag attribute  `event` which should be FQCN of event.
 ```
 <service class="Foo\BarBundle\UserInvitationSender">
     // .. arguments, configuration

@@ -1,6 +1,10 @@
 <?php
 /**
- * @package narrator-bundle
+ * Narrator Bundle
+ *
+ * @link      http://github.com/mleko/narrator-bundle
+ * @copyright Copyright (c) 2017 Daniel Król
+ * @license   MIT
  */
 
 

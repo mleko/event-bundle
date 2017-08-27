@@ -1,4 +1,4 @@
-# narrator\narrator-bundle
+# narrator/narrator-bundle
 
 [![Travis CI](https://travis-ci.org/mleko/narrator-bundle.svg?branch=master)](https://travis-ci.org/mleko/narrator-bundle)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mleko/narrator-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mleko/narrator-bundle/?branch=master)

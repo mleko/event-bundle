@@ -51,6 +51,13 @@ class ListenerPass implements \Symfony\Component\DependencyInjection\Compiler\Co
         $this->registerListener($container, $eventName, $busName, $serviceId, $methodName);
     }
 
+    /**
+     * @param ContainerBuilder $container
+     * @param string $eventName
+     * @param string $emitterName
+     * @param string $listenerServiceId
+     * @param string $methodName
+     */
     private function registerListener(ContainerBuilder $container, $eventName, $emitterName, $listenerServiceId, $methodName)
     {
         $emitterDefinition = $container->getDefinition('narrator.event_bus.' . $emitterName);
@@ -66,7 +73,14 @@ class ListenerPass implements \Symfony\Component\DependencyInjection\Compiler\Co
         $emitterDefinition->replaceArgument(1, $listeners);
     }
 
-    private function extractEventName($container, $tag, $serviceId, $methodName)
+    /**
+     * @param ContainerBuilder $container
+     * @param array $tag
+     * @param string $serviceId
+     * @param string $methodName
+     * @return null|string
+     */
+    private function extractEventName(ContainerBuilder $container, $tag, $serviceId, $methodName)
     {
         if (!isset($tag['event'])) {
             return $this->inferEventName($container, $serviceId, $methodName);
@@ -75,6 +89,12 @@ class ListenerPass implements \Symfony\Component\DependencyInjection\Compiler\Co
         return $tag['event'];
     }
 
+    /**
+     * @param ContainerBuilder $container
+     * @param string $serviceId
+     * @param string $methodName
+     * @return null|string
+     */
     private function inferEventName(ContainerBuilder $container, $serviceId, $methodName)
     {
         $listenerClass = $container->getDefinition($serviceId)->getClass();

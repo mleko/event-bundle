@@ -11,7 +11,9 @@
 namespace Mleko\Narrator\Bundle\Tests\Integration;
 
 
+use Mleko\Narrator\EventBus;
 use Mleko\Narrator\EventEmitter;
+use Mleko\Narrator\Listener\EventTrap;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -79,5 +81,33 @@ EOF
         $this->assertTrue($container->has("narrator.event_bus.inheritance"));
         /** @var EventEmitter $eventEmitter */
         $this->assertNotNull($container->get("narrator.event_bus.inheritance"));
+    }
+
+    public function testServiceResolver()
+    {
+        $servicesConfig = vfsStream::newFile("config.yml");
+        $servicesConfig->setContent(<<<'EOF'
+services:
+    custom_resolver:
+        class: Mleko\Narrator\ListenerResolver\InstanceOfResolver
+narrator:
+  event_bus:
+    default:
+        resolver:
+            type: service
+            service_id: custom_resolver
+EOF
+        );
+        $this->root->addChild($servicesConfig);
+        $this->kernel->setConfigPath($servicesConfig->url());
+        $this->kernel->boot();
+
+        $container = $this->kernel->getContainer();
+        $this->assertTrue($container->has("narrator.event_bus.default"));
+        /** @var EventBus $bus */
+        $bus = $container->get("narrator.event_bus.default");
+        $bus->subscribe(\Exception::class, $trap = new EventTrap());
+        $bus->emit($e = new \RuntimeException());
+        $this->assertContains($e, $trap->getTrappedEvents());
     }
 }

@@ -87,10 +87,10 @@ class ListenerPass implements \Symfony\Component\DependencyInjection\Compiler\Co
             return null;
         }
         $firstParameter = $parameters[0];
-        $firstParameterType = $firstParameter->getType();
+        $firstParameterType = $firstParameter->getClass();
         if (null === $firstParameterType) {
             return null;
         }
-        return (string)$firstParameterType;
+        return $firstParameterType->getName();
     }
 }

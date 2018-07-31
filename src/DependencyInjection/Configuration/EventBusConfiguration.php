@@ -37,16 +37,15 @@ class EventBusConfiguration
             } elseif ($resolver instanceof Alias) {
                 $container->setAlias($resolverServiceId, $resolver);
             }
-            $container->setDefinition(
-                "narrator.event_bus.$busName",
-                new Definition(
-                    BasicEventBus::class,
-                    [
-                        new Reference($resolverServiceId),
-                        []
-                    ]
-                )
+            $busDefinition = new Definition(
+                BasicEventBus::class,
+                [
+                    new Reference($resolverServiceId),
+                    []
+                ]
             );
+            $busDefinition->setPublic($busConfig['public']);
+            $container->setDefinition("narrator.event_bus.$busName", $busDefinition);
         }
     }
 

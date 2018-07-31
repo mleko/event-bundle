@@ -31,7 +31,7 @@ class SimpleEventListenerTest extends IntegrationTest
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service class="Mleko\Narrator\Bundle\Tests\Integration\TestApp\Counter" id="narrator.listener.counter">
+        <service class="Mleko\Narrator\Bundle\Tests\Integration\TestApp\Counter" id="narrator.listener.counter" public="true">
             <tag name="narrator.listener" event="stdClass"/>
         </service>
     </services>
@@ -90,6 +90,9 @@ EOF
 services:
     custom_resolver:
         class: Mleko\Narrator\ListenerResolver\InstanceOfResolver
+    private_service:
+        class: stdClass
+        public: false
 narrator:
   event_bus:
     default:
@@ -109,5 +112,33 @@ EOF
         $bus->subscribe(\Exception::class, $trap = new EventTrap());
         $bus->emit($e = new \RuntimeException());
         $this->assertContains($e, $trap->getTrappedEvents());
+        $this->assertFalse($container->has("private_service"));
+    }
+
+    public function testPrivateBus()
+    {
+        $servicesConfig = vfsStream::newFile("config.yml");
+        $servicesConfig->setContent(<<<'EOF'
+services:
+    test:
+        alias: narrator.event_bus.default
+        public: true
+narrator:
+  event_bus:
+    default:
+        resolver:
+            type: instanceof
+        public: false
+EOF
+        );
+        $this->root->addChild($servicesConfig);
+        $this->kernel->setConfigPath($servicesConfig->url());
+        $this->kernel->boot();
+
+        $container = $this->kernel->getContainer();
+        $this->assertFalse($container->has("narrator.event_bus.default"), "Bus should not be visible directly");
+        $this->assertTrue($container->has("test"), "Bus should available via alias");
+        $bus = $container->get("test");
+        $this->assertTrue($bus instanceof EventBus);
     }
 }

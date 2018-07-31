@@ -12,7 +12,10 @@ namespace Mleko\Narrator\Bundle\Tests\Integration\TestApp;
 
 
 use Mleko\Narrator\Bundle\NarratorBundle;
+use Mleko\Narrator\Bundle\Tests\Integration\TestApp\Container\Compiler\CompilerPass;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
@@ -63,5 +66,10 @@ class AppKernel extends Kernel
     public function getContainerBuilder()
     {
         return parent::getContainerBuilder();
+    }
+
+    protected function build(ContainerBuilder $container)
+    {
+        $container->addCompilerPass(new CompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION);
     }
 }

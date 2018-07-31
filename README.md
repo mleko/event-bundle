@@ -112,8 +112,10 @@ narrator:
     default:
       resolver:
         type: instanceof
+      public: true
     named: ~
 ```
 This configuration defines two buses: "default" and "named". These buses will be registered as `narrator.event_bus.default` and `narrator.event_bus.named`.
 `narrator.event_bus.default` will use `InstanceOf` resolver, therefore it will support event inheritance;
 `narrator.event_bus.named` will use default configuration based on strict event name comparison.
+By default all buses are registered as public services, it is possible to change that on per-bus basis using `public` parameter.

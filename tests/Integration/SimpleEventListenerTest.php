@@ -23,6 +23,16 @@ class SimpleEventListenerTest extends IntegrationTest
 {
     public function testDefaultEventBus()
     {
+        $config  = vfsStream::newFile("config.yml");
+        $config->setContent(<<<'EOF'
+imports:
+    - { resource: services.xml }
+narrator:
+  event_bus:
+    default:
+      public: true
+EOF
+);
         $servicesConfig = vfsStream::newFile("services.xml");
         $servicesConfig->setContent(<<<'EOF'
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -38,8 +48,9 @@ class SimpleEventListenerTest extends IntegrationTest
 </container>
 EOF
         );
+        $this->root->addChild($config);
         $this->root->addChild($servicesConfig);
-        $this->kernel->setConfigPath($servicesConfig->url());
+        $this->kernel->setConfigPath($config->url());
         $this->kernel->boot();
 
         $container = $this->kernel->getContainer();
@@ -71,6 +82,7 @@ narrator:
     inheritance:
       resolver:
         type: instanceof
+      public: true
 EOF
         );
         $this->root->addChild($servicesConfig);
@@ -99,6 +111,7 @@ narrator:
         resolver:
             type: service
             service_id: custom_resolver
+        public: true
 EOF
         );
         $this->root->addChild($servicesConfig);
